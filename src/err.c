@@ -23,6 +23,8 @@ int ErrCode_getVal(ErrCode this) {
             return 2;
         case ErrCode_MEM:
             return 3;
+        case ErrCode_BOUNDS:
+            return 4;
         default:
             return 1;
     }

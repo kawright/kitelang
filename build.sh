@@ -10,5 +10,9 @@ mkdir build
 mkdir build/obj
 mkdir build/bin
 
+echo "Building object files"
+gcc -Isrc/include -c src/err.c -o build/obj/err.o
+
 echo "Building executable"
-gcc -o build/bin/kite src/kite.c
+gcc -Isrc/include -o build/bin/kite     build/obj/err.o \
+                                        src/kite.c

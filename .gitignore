@@ -1,0 +1,9 @@
+# Copyright (C) 2024  KA Wright
+
+# .gitignore - Files and directory to exclude from `git`.
+
+# VIM
+.*.swp
+
+# Build Artifacts
+build

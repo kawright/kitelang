@@ -1,65 +1,62 @@
 // Copyright (C) 2024  KA Wright
 
 /******************************************************************************
-err.h - API for reading and writing to the global error state.
+tok.h - API for tokens.
 ******************************************************************************/
 
-#ifndef __ERR_H__
-#define __ERR_H__
+#ifndef __TOK_H__
+#define __TOK_H__
 
 
 /******************************************************************************
-Stores all supported error codes.
+Lists all supported token types.
 ******************************************************************************/
 typedef enum {
-    ErrCode_OK,             // No error
-    ErrCode_RUNTIME,        // General error
-    ErrCode_ARGV,           // Bad argv given
-    ErrCode_MEM,            // Heap-memory allocation fail
-    ErrCode_BOUNDS,         // Buffer out of bounds
-    ErrCode_ILLEGAL         // Illegal character found
-} ErrCode;
+    TokType_STR,
+    TokType_NAME,
+    TokType_OP,
+    TokType_PUNCT,
+    TokType_SPEC,
+    TokType_END
+} TokType;
 
 
 /******************************************************************************
-Get the value of an `ErrCode` instance.
+Get the name of a `TokType`.
+
+Sets `ErrCode_MEM` for heap-memory allocation failure.
 ******************************************************************************/
-int ErrCode_getVal(ErrCode this);
+char* TokType_getName(TokType this);
 
 
 /******************************************************************************
-Get the current error code. If no error has been signaled, `ErrCode_OK` will
-be returned.
+Opaque handle for a single token.
 ******************************************************************************/
-ErrCode ErrState_getCode();
+typedef struct __TOK__ *Tok;
 
 
 /******************************************************************************
-Get the current error message. If no error has been signaled, an empty string
-is returned.
+Create a new `Tok`.
 ******************************************************************************/
-char *ErrState_getMsg();
+Tok Tok_new(TokType type, char *val);
 
 
 /******************************************************************************
-Set a new error code.
+Delete a `Tok`.
 ******************************************************************************/
-void ErrState_setCode(ErrCode val);
-
-/******************************************************************************
-Set a new error message.
-
-If `val` exceeds 127 characters in length, the message will not written and
-this function will exit immediately.
-******************************************************************************/
-void ErrState_setMsg(char* val);
+void Tok_del(Tok this);
 
 
 /******************************************************************************
-Reset the global error state. The default code is `ErrCode_OK` and the default
-message is an empty string.
+Get the type of a `Tok`.
 ******************************************************************************/
-void ErrState_reset();
+TokType Tok_getType(Tok this);
+
+
+/******************************************************************************
+Get the value of a `Tok`.
+******************************************************************************/
+char *Tok_getVal(Tok this);
 
 
 #endif

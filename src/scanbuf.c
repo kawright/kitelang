@@ -11,14 +11,20 @@ scanbuf.c - Implementation of a scannable buffer which supports look-ahead.
 #include "err.h"
 #include "scanbuf.h"
 
-struct __SCAN_BUFFER__ {
+/******************************************************************************
+__SCAN_BUF__
+******************************************************************************/
+struct __SCAN_BUF__ {
     char* data;
     long len;
     long curs;
 };
 
-ScanBuffer ScanBuffer_new(char* data) {
-    ScanBuffer ret = malloc(sizeof(struct __SCAN_BUFFER__));
+/******************************************************************************
+ScanBuf_new
+******************************************************************************/
+ScanBuf ScanBuf_new(char* data) {
+    ScanBuf ret = malloc(sizeof(struct __SCAN_BUF__));
     if (ret == NULL) {
         ErrState_setCode(ErrCode_MEM);
         ErrState_setMsg("Cannot allocate `ScanBuffer`");
@@ -41,12 +47,18 @@ ScanBuffer ScanBuffer_new(char* data) {
     return ret;
 }
 
-void ScanBuffer_del(ScanBuffer this) {
+/******************************************************************************
+ScanBuf_del
+******************************************************************************/
+void ScanBuf_del(ScanBuf this) {
     free(this->data);
     free(this);
 }
 
-void ScanBuffer_adv(ScanBuffer this) {
+/******************************************************************************
+ScanBuf_adv
+******************************************************************************/
+void ScanBuf_adv(ScanBuf this) {
     if (this->curs >= (this->len-1)) {
         ErrState_setCode(ErrCode_BOUNDS);
         ErrState_setMsg("End of buffer reached");
@@ -55,11 +67,17 @@ void ScanBuffer_adv(ScanBuffer this) {
     this->curs++;
 }
 
-char ScanBuffer_get(ScanBuffer this) {
+/******************************************************************************
+ScanBuf_get
+******************************************************************************/
+char ScanBuf_get(ScanBuf this) {
     return this->data[this->curs];
 }
 
-char ScanBuffer_peek(ScanBuffer this) {
+/******************************************************************************
+ScanBuf_peek
+******************************************************************************/
+char ScanBuf_peek(ScanBuf this) {
     
     if (this->curs >= (this->len-1)) {
         ErrState_setCode(ErrCode_BOUNDS);

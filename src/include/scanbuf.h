@@ -12,45 +12,45 @@ scanbuf.h - API for a scannable buffer which supports look-ahead.
 Opaque handle for a character buffer which can be scanned with one-character
 look-ahead.
 ******************************************************************************/
-typedef struct __SCAN_BUFFER__ *ScanBuffer;
+typedef struct __SCAN_BUF__ *ScanBuf;
 
 
 /******************************************************************************
-Create a new `ScanBuffer` from an existing string.
+Create a new `ScanBuf` from an existing string.
 
 Sets `ErrCode_MEM` if heap-memory allocation fails.
 ******************************************************************************/
-ScanBuffer ScanBuffer_new(char* data);
+ScanBuf ScanBuf_new(char* data);
 
 
 /******************************************************************************
-Delete a `ScanBuffer`.
+Delete a `ScanBuf`.
 ******************************************************************************/
-void ScanBuffer_del(ScanBuffer this);
+void ScanBuf_del(ScanBuf this);
 
 
 /******************************************************************************
-Advance the cursor one position forward.
+Advance the cursor of a `ScanBuf` one position forward.
 
 Sets `ErrCode_BOUNDS` if the operation will result in the cursor being
 out-of-bounds.
 ******************************************************************************/
-void ScanBuffer_adv(ScanBuffer this);
+void ScanBuf_adv(ScanBuf this);
 
 
 /******************************************************************************
-Return the character at the given cursor position.
+Return the character of a `ScanBuf` at the current cursor position.
 ******************************************************************************/
-char ScanBuffer_get(ScanBuffer this);
+char ScanBuf_get(ScanBuf this);
 
 
 /******************************************************************************
-Return the character one position ahead of the cursor.
+Return the character of a `ScanBuf` one position ahead of the cursor.
 
 Sets `ErrCode_BOUNDS` and returns `-1` if the cursor is already at the final 
 position in the buffer.
 ******************************************************************************/
-char ScanBuffer_peek(ScanBuffer this);
+char ScanBuf_peek(ScanBuf this);
 
 
 #endif

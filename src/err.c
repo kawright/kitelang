@@ -10,8 +10,8 @@ err.c - Implementation of the global error state API.
 
 #define MAX_MSG_LEN 127
 
-ErrCode code;
-char msg[MAX_MSG_LEN + 1];
+ErrCode __code__;
+char __msg__[MAX_MSG_LEN + 1];
 
 /******************************************************************************
 ErrCode_getVal
@@ -40,21 +40,21 @@ int ErrCode_getVal(ErrCode this) {
 ErrState_getCode
 ******************************************************************************/
 ErrCode ErrState_getCode() {
-    return code; 
+    return __code__; 
 }
 
 /******************************************************************************
 ErrState_getMsg
 ******************************************************************************/
 char *ErrState_getMsg() {
-    return msg;
+    return __msg__;
 }
 
 /******************************************************************************
 ErrState_setCode
 ******************************************************************************/
 void ErrState_setCode(ErrCode val) {
-    code = val;
+    __code__ = val;
 }
 
 /******************************************************************************
@@ -62,7 +62,7 @@ ErrState_setMsg
 ******************************************************************************/
 void ErrState_setMsg(char* val) {
     if (strlen(val) <= MAX_MSG_LEN) {
-        strcpy(msg, val);
+        strcpy(__msg__, val);
     }
 }
 
@@ -70,6 +70,6 @@ void ErrState_setMsg(char* val) {
 ErrState_reset
 ******************************************************************************/
 void ErrState_reset() {
-    code = ErrCode_OK;
-    strcpy(msg, "");
+    __code__ = ErrCode_OK;
+    strcpy(__msg__, "");
 }

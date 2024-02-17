@@ -12,6 +12,8 @@ lex.c - Implementation of lexer API
 #include "scanbuf.h"
 #include "tok.h"
 
+int __endReached__ = 0;
+
 // PRIVATE FUNCTIONS
 
 /******************************************************************************
@@ -121,8 +123,16 @@ char *__scan__(char first, char* legal, ScanBuf buf) {
 Lex_next
 ******************************************************************************/
 Tok Lex_next(ScanBuf buf) {
-    char curr = ScanBuf_get(buf);
     Tok ret;
+    if (__endReached__) {
+        ret = Tok_new(TokType_END, NULL);
+        if (ErrState_getCode() == ErrCode_MEM) {
+            return NULL;
+        }
+        return ret; 
+    }
+
+    char curr = ScanBuf_get(buf);
     while (ErrState_getCode() != ErrCode_BOUNDS) {
         switch (curr) {
             
@@ -238,8 +248,15 @@ Tok Lex_next(ScanBuf buf) {
                 ErrState_setMsg("Illegal character found");
                 return NULL;
         }
+        ScanBuf_adv(buf);
+        curr = ScanBuf_get(buf);
     }
 
+    if (ErrState_getCode() == ErrCode_BOUNDS) {
+        ErrState_reset();
+    }
+
+    __endReached__ = 1;
     ret = Tok_new(TokType_END, NULL);   
     if (ErrState_getCode() == ErrCode_MEM) {
         return NULL;

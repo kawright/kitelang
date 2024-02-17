@@ -13,13 +13,15 @@ mkdir build/obj
 mkdir build/bin
 
 echo "Building object files"
+gcc -Isrc/include -c src/argvparse.c -o build/obj/argvparse.o
 gcc -Isrc/include -c src/err.c -o build/obj/err.o
 gcc -Isrc/include -c src/lex.c -o build/obj/lex.o
 gcc -Isrc/include -c src/scanbuf.c -o build/obj/scanbuf.o
 gcc -Isrc/include -c src/tok.c -o build/obj/tok.o
 
 echo "Building executable"
-gcc -Isrc/include -o build/bin/kite     build/obj/err.o \
+gcc -Isrc/include -o build/bin/kite     build/obj/argvparse.o \
+                                        build/obj/err.o \
                                         build/obj/lex.o \
                                         build/obj/scanbuf.o \
                                         build/obj/tok.o \

@@ -30,6 +30,8 @@ int ErrCode_getVal(ErrCode this) {
             return 4;
         case ErrCode_ILLEGAL:
             return 5;
+        case ErrCode_FILEIO:
+            return 6;
         default:
             return 1;
     }

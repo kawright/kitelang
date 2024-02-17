@@ -17,7 +17,8 @@ typedef enum {
     ErrCode_ARGV,           // Bad argv given
     ErrCode_MEM,            // Heap-memory allocation fail
     ErrCode_BOUNDS,         // Buffer out of bounds
-    ErrCode_ILLEGAL         // Illegal character found
+    ErrCode_ILLEGAL,        // Illegal character found
+    ErrCode_FILEIO          // File IO op fail
 } ErrCode;
 
 

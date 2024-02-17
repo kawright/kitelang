@@ -33,16 +33,7 @@ ScanBuf ScanBuf_new(char* data) {
     
     ret->len = strlen(data);
     ret->curs = 0;
-    
-    ret->data = malloc(ret->len + 1);
-    if (ret->data == NULL) {
-        ErrState_setCode(ErrCode_MEM);
-        ErrState_setMsg("Cannot allocate `ScanBuffer` data");
-        free(ret);
-        return NULL;
-    }
-    
-    strcpy(ret->data, data);
+    ret->data = data;
 
     return ret;
 }

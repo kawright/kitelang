@@ -65,6 +65,7 @@ Tok Tok_new(TokType type, char *val) {
         return NULL;
     }
     strcpy(ret->val, val);
+    return ret;
 }
 
 /******************************************************************************

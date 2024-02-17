@@ -1,12 +1,8 @@
 # Copyright (C) 2024  KA Wright
 
 ###############################################################################
-# .gitignore - Files and directory to exclude from `git`.
+# hello.kite - This is the very first KITE script ever written.
 ###############################################################################
 
-# VIM
-.*.swp
-
-# Build Artifacts
-build
-__pycache__
+print = builtin("io/print");
+print("Hello, world!\n");

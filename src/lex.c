@@ -17,6 +17,20 @@ int __endReached__ = 0;
 // PRIVATE FUNCTIONS
 
 /******************************************************************************
+Fast-forward the buffer until a target character is seen, or the end of the
+buffer is reached.
+******************************************************************************/
+void __ffw__(char targ, ScanBuf buf) {
+    char curr = ScanBuf_get(buf);
+    while ((ErrState_getCode() != ErrCode_BOUNDS) && (curr != targ)) {
+        ScanBuf_adv(buf);
+        curr = ScanBuf_get(buf);
+    }
+ 
+}
+
+
+/******************************************************************************
 Scan a quoted string and return it (without the quotes).
 
 Sets `ErrCode_BOUNDS` and returns `NULL`  if the end of the buffer is reached 
@@ -60,6 +74,9 @@ char *__scanStr__(char delim, ScanBuf buf) {
         }
         curr = ScanBuf_get(buf);
     }
+
+    ScanBuf_adv(buf);           // Eat trailing delim
+    ret[retlen] = '\0';
     return ret;
 }   
 
@@ -109,11 +126,13 @@ char *__scan__(char first, char* legal, ScanBuf buf) {
             return NULL;
         }
         ret[retlen - 1] = curr;
-        ScanBuf_adv(buf);   
+        ScanBuf_adv(buf);
+        curr = ScanBuf_get(buf); 
     }
     if (ErrState_getCode() == ErrCode_BOUNDS) {
         ErrState_reset();
     }
+    ret[retlen] = '\0';
     return ret;
 }
 
@@ -135,13 +154,18 @@ Tok Lex_next(ScanBuf buf) {
     char curr = ScanBuf_get(buf);
     while (ErrState_getCode() != ErrCode_BOUNDS) {
         switch (curr) {
+
+            // COMMENTS:
+            case '#':
+                __ffw__('\n', buf);
+                break;
             
             // WHITESPACE:
             case ' ':
             case '\n':
             case '\r':
             case '\t':
-                continue;
+                break;
             
             // SPECIAL CHARACTER:
             case '(':
@@ -159,13 +183,13 @@ Tok Lex_next(ScanBuf buf) {
                 if (ErrState_getCode() == ErrCode_MEM) {
                     return NULL;
                 }
+                ScanBuf_adv(buf);
                 return ret;
             
             // STRING:
             case '"':
-            case '\'':
                 char *strTokVal;
-                strTokVal = __scanStr__(curr, buf);
+                strTokVal = __scanStr__('"', buf);
                 if (ErrState_getCode() != ErrCode_OK) {
                     return NULL;
                 }

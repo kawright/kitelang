@@ -20,6 +20,9 @@ according to the given initialization stage.
 ******************************************************************************/
 #define FATAL_CHK()\
     if (ErrState_getCode() != ErrCode_OK) {\
+
+// TODO Repl inline cleanup logic with call to new `CLEANUP` macro
+
         switch (initStage) {\
             case InitStage_SCANBUF_LOAD:\
                 ScanBuf_del(buf);\
@@ -32,6 +35,9 @@ according to the given initialization stage.
         fprintf(stderr, "%s\n", ErrState_getMsg());\
         return ErrCode_getVal(ErrState_getCode());\
     }
+
+// TODO Create new macro CLEANUP using cleanup routing at end of main
+// TODO Add tokBuf to CLEANUP macro for InitStage_LEX_DONE
 
 /******************************************************************************
 main
@@ -69,6 +75,10 @@ int main(int argc, char* argv[]) {
     currTok = Lex_next(buf);
     while (Tok_getType(currTok) != TokType_END) {
         FATAL_CHK()
+
+// TODO Update to only print tokens for --lex-only
+// TODO Update to push lexed tokens to token buffer if not --lex-only
+
         printf("<%s, %s>\n", TokType_getName(Tok_getType(currTok)), 
             Tok_getVal(currTok));
         Tok_del(currTok);
@@ -76,6 +86,8 @@ int main(int argc, char* argv[]) {
     } 
     printf("<%s, %s>\n", TokType_getName(Tok_getType(currTok)), 
         Tok_getVal(currTok));
+
+// TODO Update to clean and exit after lexing for --lex-only
    
     // CLEANUP: 
     ScanBuf_del(buf);

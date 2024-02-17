@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     } 
     printf("<%s, %s>\n", TokType_getName(Tok_getType(currTok)), 
         Tok_getVal(currTok));
-    
+   
     // CLEANUP: 
     ScanBuf_del(buf);
     ArgvParse_del(parser);

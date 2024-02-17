@@ -1,0 +1,21 @@
+Copyright (C) 2024   KA Wright
+
+===============================================================================
+TODO.txt - Project todo list
+===============================================================================
+
+NOTE: Items are to be removed after completion.
+
+- Create new macro `CLEANUP` using existing CLEANUP routine at end of main
+- Update `FATAL_CHK` macro to call `CLEANUP` macro
+- Create new init stage `InitStage_LEX_DONE`
+- Update `CLEANUP` macro to include `currTok` for `InitStage_LEX_DONE`
+- Create new header `tokbuf.h` for token buffer API
+- Create new implementation `tokbuf.c` for token buffer API
+- Update main to push lexed tokens to token buffer
+- Update main to only print tokens for `--lex-only`
+- Update main to exit after lexing for `--lex-only`
+- Create CHANGELOG
+- Update README to include binary usage
+- Update README to include build instructions
+- Release tag v0.1.0 for first version with complete lexing

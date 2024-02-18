@@ -18,25 +18,25 @@ kite.c - Contains the entry point for the `kite` interpreter.
 MACRO: Panic for all error codes aside from OK. If in panic, free resources
 according to the given initialization stage.
 ******************************************************************************/
+
 #define FATAL_CHK()\
     if (ErrState_getCode() != ErrCode_OK) {\
-
-// TODO Repl inline cleanup logic with call to new `CLEANUP` macro
-
-        switch (initStage) {\
-            case InitStage_SCANBUF_LOAD:\
-                ScanBuf_del(buf);\
-            case InitStage_ARGVPARSE_LOAD:\
-                ArgvParse_del(parser);\
-            case InitStage_BEGIN:\
-            default:\
-                break;\
-        }\
+        CLEANUP()\
         fprintf(stderr, "%s\n", ErrState_getMsg());\
         return ErrCode_getVal(ErrState_getCode());\
     }
 
-// TODO Create new macro CLEANUP using cleanup routing at end of main
+# define CLEANUP()\
+    switch (initStage) {\
+        case InitStage_SCANBUF_LOAD:\
+            ScanBuf_del(buf);\
+        case InitStage_ARGVPARSE_LOAD:\
+            ArgvParse_del(parser);\
+        case InitStage_BEGIN:\
+        default:\
+            break;\
+    }\
+
 // TODO Add tokBuf to CLEANUP macro for InitStage_LEX_DONE
 
 /******************************************************************************
@@ -89,9 +89,7 @@ int main(int argc, char* argv[]) {
 
 // TODO Update to clean and exit after lexing for --lex-only
    
-    // CLEANUP: 
-    ScanBuf_del(buf);
-    ArgvParse_del(parser);
-    
+    CLEANUP()   
+ 
     return 0;
 }

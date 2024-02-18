@@ -8,14 +8,13 @@
 
 from os import system
 
-# TODO Add tokbuf to build script
-
 OBJS = [
     "argvparse",
     "err",
     "lex",
     "scanbuf",
-    "tok"
+    "tok",
+    "tokbuf"
 ]
 
 FLAGS = "-Isrc/include -g -Wall"

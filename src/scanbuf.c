@@ -50,7 +50,7 @@ void ScanBuf_del(ScanBuf this) {
 ScanBuf_adv
 ******************************************************************************/
 void ScanBuf_adv(ScanBuf this) {
-    if (this->curs >= (this->len-1)) {
+    if (this->curs >= (this->len - 1)) {
         ErrState_setCode(ErrCode_BOUNDS);
         ErrState_setMsg("End of buffer reached");
         return;
@@ -70,10 +70,10 @@ ScanBuf_peek
 ******************************************************************************/
 char ScanBuf_peek(ScanBuf this) {
     
-    if (this->curs >= (this->len-1)) {
+    if (this->curs >= (this->len - 1)) {
         ErrState_setCode(ErrCode_BOUNDS);
         ErrState_setMsg("End of buffer reached");
         return -1;
     }
-    return this->data[this->curs+1];
+    return this->data[this->curs + 1];
 }
